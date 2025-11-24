@@ -1,38 +1,410 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Kaiwen Zhou by kaiwenzhou</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaiwen Zhou</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Geist Mono', Monaco, 'Courier New', monospace;
+            background: #ffffff;
+            color: #1e293b;
+            min-height: 100vh;
+        }
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Kaiwen Zhou</h1>
-        <p>University of California Berkeley </br>B.S. Electrical Engineering and Computer Sciences
-        </br>Class of 2019</p>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Decorative elements */
+        .decorative {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            color: #3b82f6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decorative:nth-child(1) { top: 10%; right: 10%; animation-delay: 0s; }
+        .decorative:nth-child(2) { top: 20%; right: 30%; animation-delay: 1s; font-size: 1.5rem; }
+        .decorative:nth-child(3) { bottom: 15%; left: 8%; animation-delay: 2s; font-size: 2.5rem; }
+        .decorative:nth-child(4) { bottom: 30%; right: 20%; animation-delay: 3s; font-size: 1.8rem; }
+        .decorative:nth-child(5) { top: 40%; left: 15%; animation-delay: 4s; font-size: 2.2rem; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Header */
+        .header {
+            border: 2px solid #3b82f6;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            background: #eff6ff;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1e40af;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Map */
+        .nav-map {
+            border: 2px solid #3b82f6;
+            padding: 2rem;
+            background: #eff6ff;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .map-container {
+            font-family: 'Geist Mono', Monaco, 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            white-space: pre;
+        }
+
+        .nav-area {
+            display: inline;
+            cursor: pointer;
+        }
+
+        .nav-area.cursor {
+            background: #fdf2f8;
+            color: #be185d;
+        }
+
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 1rem;
+        }
+
+        /* Section Content */
+        .section-content {
+            border: 2px solid #3b82f6;
+            background: #ffffff;
+            position: relative;
+            z-index: 10;
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #3b82f6;
+            padding: 1rem;
+            background: #eff6ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            color: #1e40af;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-btn {
+            color: #1e40af;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #dbeafe;
+            color: #ec4899;
+        }
+
+        .section-body {
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .section-body h3 {
+            color: #1e293b;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .section-body p {
+            margin-bottom: 1rem;
+        }
+
+        .section-body a {
+            color: #3b82f6;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .section-body a:hover {
+            border-bottom-color: #3b82f6;
+        }
+
+        .project-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background: #f8fafc;
+        }
+
+        .project-item h4 {
+            margin: 0 0 0.5rem 0;
+            color: #1e293b;
+        }
+
+        .project-item p {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .project-item a {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Elements -->
+    <div class="decorative">💻</div>
+    <div class="decorative">🚀</div>
+    <div class="decorative">⚡</div>
+    <div class="decorative">🎯</div>
+    <div class="decorative">🔧</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <span>Kaiwen Zhou (Kai)</span>
+                <span>software engineer • uc berkeley eecs '19 • ex-asana</span>
+            </div>
+        </div>
+
+        <!-- Navigation Map -->
+        <div id="nav-map" class="nav-map">
+            <div class="map-container"><span class="nav-area" data-section="about" data-index="0">about</span>
+
+<span class="nav-area" data-section="projects" data-index="1">projects</span>
+
+<span class="nav-area" data-section="photography" data-index="2">photography</span>
+
+<span class="nav-area" data-section="twitter" data-index="3">twitter</span>
+
+<span class="nav-area" data-section="linkedin" data-index="4">linkedin</span></div>
+
+            <div class="instructions">
+                [↑↓] navigate • [enter] select • [esc] back
+            </div>
+        </div>
+
+        <!-- Section Contents -->
+        <div id="about-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">About Me</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>hey! my name is kaiwen zhou, but you can call me kai.</h3>
+                <p>previously i was a product engineer on the notifications/communications team at asana.</p>
+                <p>i quit in 2022 and went traveling to japan for a bunch for 3 years. i had a lot of fun going around japan, practicing my japanese, snowboarding in the soft snow in hakuba, and meeting some very cool people.</p>
+                <p>i'm currently back in sf, building personal projects and looking for a new fulltime role.</p>
+            </div>
+        </div>
 
 
-        <p class="view"><a href="https://github.com/kaiwenzhou">GitHub</a></br>
-        <a href="https://linkedin.com/in/kaiwenzhou">LinkedIn</a></br>
-        <a href="resume.pdf" target="_blank">Resume</a></p>
+        <div id="projects-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">Projects</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>Featured Projects</h3>
+                <ul class="project-list">
+                    <li class="project-item">
+                        <h4>Gradient Domain Fusion</h4>
+                        <p>Computer vision project implementing image blending techniques using gradient domain methods.</p>
+                        <a href="https://inst.eecs.berkeley.edu/~cs194-26/fa17/upload/files/proj3/cs194-26-afc/" target="_blank">View Project →</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-      </header>
-      <section>
-        <h3><a id="projects" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects</h3>
-        <a href="https://inst.eecs.berkeley.edu/~cs194-26/fa17/upload/files/proj3/cs194-26-afc/">Gradient Domain Fusion</a></br>
-        <img id="cloud" src="./images/cloud.jpg" width="240px"></br>
-        <a href="./photoproject.html">Photo Decal Project</a></br>
-      </section>
+        <div id="photography-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">Photography</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>Photography Portfolio</h3>
+                <p>A collection of my photography work from my Berkeley photography decal class.</p>
+                <p><a href="./photoproject.html" target="_blank">View Full Gallery →</a></p>
+            </div>
+        </div>
+
+        <div id="twitter-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">Twitter</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>thoughts, updates, and sf tech twitter things</h3>
+                <p>follow me for random thoughts, travel updates from japan, and general tech musings.</p>
+                <p><a href="https://twitter.com/ssvankai" target="_blank">@ssvankai →</a></p>
+            </div>
+        </div>
+
+        <div id="linkedin-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">LinkedIn</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>Professional Profile</h3>
+                <p>Connect with me on LinkedIn to see my professional experience and network.</p>
+                <p><a href="https://linkedin.com/in/kaiwenzhou" target="_blank">View LinkedIn Profile →</a></p>
+            </div>
+        </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
 
-  </body>
+    <script>
+        let currentIndex = 0;
+        let currentSection = null;
+        const maxIndex = 4; // 0-4 for 5 sections
+
+        function updateCursor() {
+            document.querySelectorAll('.nav-area').forEach(item => {
+                item.classList.remove('cursor');
+            });
+
+            const currentItem = document.querySelector(`[data-index="${currentIndex}"]`);
+            if (currentItem) {
+                currentItem.classList.add('cursor');
+            }
+        }
+
+        function showSection(sectionId) {
+            if (!sectionId) return;
+            
+            document.getElementById('nav-map').style.display = 'none';
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            const section = document.getElementById(sectionId + '-section');
+            if (section) {
+                section.style.display = 'block';
+                currentSection = sectionId;
+            }
+        }
+
+        function closeSection() {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('nav-map').style.display = 'block';
+            currentSection = null;
+        }
+
+        function handleKeyDown(e) {
+            if (currentSection) {
+                if (e.key === 'Escape') {
+                    closeSection();
+                }
+                return;
+            }
+
+            switch (e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    currentIndex = Math.max(0, currentIndex - 1);
+                    updateCursor();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    currentIndex = Math.min(maxIndex, currentIndex + 1);
+                    updateCursor();
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    const currentItem = document.querySelector(`[data-index="${currentIndex}"]`);
+                    if (currentItem && currentItem.dataset.section) {
+                        if (currentItem.dataset.section === 'linkedin') {
+                            window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
+                        } else if (currentItem.dataset.section === 'twitter') {
+                            window.open('https://twitter.com/ssvankai', '_blank');
+                        } else {
+                            showSection(currentItem.dataset.section);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // Initialize
+        window.addEventListener('keydown', handleKeyDown);
+        updateCursor();
+
+        // Click support
+        document.querySelectorAll('.nav-area').forEach(item => {
+            if (item.dataset.section) {
+                item.addEventListener('click', () => {
+                    if (item.dataset.section === 'linkedin') {
+                        window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
+                    } else if (item.dataset.section === 'twitter') {
+                        window.open('https://twitter.com/ssvankai', '_blank');
+                    } else {
+                        showSection(item.dataset.section);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 </html>
