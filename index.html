@@ -235,9 +235,11 @@
 
 <span class="nav-area" data-section="photography" data-index="2">photography</span>
 
-<span class="nav-area" data-section="twitter" data-index="3">twitter</span>
+<span class="nav-area" data-section="substack" data-index="3">substack</span>
 
-<span class="nav-area" data-section="linkedin" data-index="4">linkedin</span></div>
+<span class="nav-area" data-section="twitter" data-index="4">twitter</span>
+
+<span class="nav-area" data-section="linkedin" data-index="5">linkedin</span></div>
 
             <div class="instructions">
                 [↑↓] navigate • [enter] select • [esc] back
@@ -288,6 +290,18 @@
             </div>
         </div>
 
+        <div id="substack-section" class="section-content">
+            <div class="section-header">
+                <div class="section-title">Substack</div>
+                <div class="close-btn" onclick="closeSection()">[x]</div>
+            </div>
+            <div class="section-body">
+                <h3>writing and longer thoughts</h3>
+                <p>occasionally i write about tech, travel, and random observations from japan and sf.</p>
+                <p><a href="https://kaiwen.substack.com/" target="_blank">kaiwen.substack.com →</a></p>
+            </div>
+        </div>
+
         <div id="twitter-section" class="section-content">
             <div class="section-header">
                 <div class="section-title">Twitter</div>
@@ -316,7 +330,7 @@
     <script>
         let currentIndex = 0;
         let currentSection = null;
-        const maxIndex = 4; // 0-4 for 5 sections
+        const maxIndex = 5; // 0-5 for 6 sections
 
         function updateCursor() {
             document.querySelectorAll('.nav-area').forEach(item => {
@@ -379,6 +393,8 @@
                             window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
                         } else if (currentItem.dataset.section === 'twitter') {
                             window.open('https://twitter.com/ssvankai', '_blank');
+                        } else if (currentItem.dataset.section === 'substack') {
+                            window.open('https://kaiwen.substack.com/', '_blank');
                         } else {
                             showSection(currentItem.dataset.section);
                         }
@@ -399,6 +415,8 @@
                         window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
                     } else if (item.dataset.section === 'twitter') {
                         window.open('https://twitter.com/ssvankai', '_blank');
+                    } else if (item.dataset.section === 'substack') {
+                        window.open('https://kaiwen.substack.com/', '_blank');
                     } else {
                         showSection(item.dataset.section);
                     }
