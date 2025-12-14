@@ -14,6 +14,22 @@
             background: #ffffff;
             color: #1e293b;
             min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        body.fade-out {
+            animation: fadeOut 0.2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
         }
 
         .container {
@@ -280,7 +296,13 @@
 
 <span class="nav-area" data-section="twitter" data-index="4">twitter</span>
 
-<span class="nav-area" data-section="linkedin" data-index="5">linkedin</span></div>
+<span class="nav-area" data-section="instagram" data-index="5">instagram</span>
+
+<span class="nav-area" data-section="twitch" data-index="6">twitch</span>
+
+<span class="nav-area" data-section="lolchess" data-index="7">lolchess</span>
+
+<span class="nav-area" data-section="linkedin" data-index="8">linkedin</span></div>
 
             <div class="instructions">
                 [↑↓] navigate • [enter] select • [esc] back
@@ -374,7 +396,24 @@
     <script>
         let currentIndex = 0;
         let currentSection = null;
-        const maxIndex = 5; // 0-5 for 6 sections
+        const maxIndex = 8; // 0-8 for 9 nav items
+
+        // External links mapping
+        const externalLinks = {
+            twitter: 'https://twitter.com/ssvankai',
+            instagram: 'https://www.instagram.com/kaiwenzhou_/',
+            twitch: 'https://www.twitch.tv/hoimes',
+            lolchess: 'https://lolchess.gg/profile/na/HoImes-NA1/',
+            linkedin: 'https://linkedin.com/in/kaiwenzhou'
+        };
+
+        // Navigate with transition
+        function navigateTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 200);
+        }
 
         function updateCursor() {
             document.querySelectorAll('.nav-area').forEach(item => {
@@ -433,12 +472,13 @@
                     e.preventDefault();
                     const currentItem = document.querySelector(`[data-index="${currentIndex}"]`);
                     if (currentItem && currentItem.dataset.section) {
-                        if (currentItem.dataset.section === 'linkedin') {
-                            window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
-                        } else if (currentItem.dataset.section === 'twitter') {
-                            window.open('https://twitter.com/ssvankai', '_blank');
+                        const section = currentItem.dataset.section;
+                        if (externalLinks[section]) {
+                            window.open(externalLinks[section], '_blank');
+                        } else if (section === 'photography') {
+                            navigateTo('./photoproject.html');
                         } else {
-                            showSection(currentItem.dataset.section);
+                            showSection(section);
                         }
                     }
                     break;
@@ -453,12 +493,13 @@
         document.querySelectorAll('.nav-area').forEach(item => {
             if (item.dataset.section) {
                 item.addEventListener('click', () => {
-                    if (item.dataset.section === 'linkedin') {
-                        window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
-                    } else if (item.dataset.section === 'twitter') {
-                        window.open('https://twitter.com/ssvankai', '_blank');
+                    const section = item.dataset.section;
+                    if (externalLinks[section]) {
+                        window.open(externalLinks[section], '_blank');
+                    } else if (section === 'photography') {
+                        navigateTo('./photoproject.html');
                     } else {
-                        showSection(item.dataset.section);
+                        showSection(section);
                     }
                 });
             }
