@@ -36,29 +36,9 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            position: relative;
             min-height: 100vh;
-        }
-
-        /* Decorative elements */
-        .decorative {
-            position: fixed;
-            font-size: 2rem;
-            opacity: 0.1;
-            pointer-events: none;
-            color: #3b82f6;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .decorative:nth-child(1) { top: 10%; right: 10%; animation-delay: 0s; }
-        .decorative:nth-child(2) { top: 20%; right: 30%; animation-delay: 1s; font-size: 1.5rem; }
-        .decorative:nth-child(3) { bottom: 15%; left: 8%; animation-delay: 2s; font-size: 2.5rem; }
-        .decorative:nth-child(4) { bottom: 30%; right: 20%; animation-delay: 3s; font-size: 1.8rem; }
-        .decorative:nth-child(5) { top: 40%; left: 15%; animation-delay: 4s; font-size: 2.2rem; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            display: flex;
+            flex-direction: column;
         }
 
         /* Header */
@@ -105,6 +85,13 @@
         .nav-area.cursor {
             background: #fdf2f8;
             color: #be185d;
+        }
+
+        .nav-label {
+            color: #94a3b8;
+            font-size: 12px;
+            display: block;
+            margin-top: 0.5rem;
         }
 
         /* Instructions */
@@ -254,13 +241,17 @@
             font-style: italic;
         }
 
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(6, 1fr);
-            }
-            
             .container {
                 padding: 1rem;
             }
@@ -268,13 +259,6 @@
     </style>
 </head>
 <body>
-    <!-- Decorative Elements -->
-    <div class="decorative">💻</div>
-    <div class="decorative">🚀</div>
-    <div class="decorative">⚡</div>
-    <div class="decorative">🎯</div>
-    <div class="decorative">🔧</div>
-
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -287,22 +271,16 @@
         <!-- Navigation Map -->
         <div id="nav-map" class="nav-map">
             <div class="map-container"><span class="nav-area" data-section="about" data-index="0">about</span>
-
 <span class="nav-area" data-section="projects" data-index="1">projects</span>
-
 <span class="nav-area" data-section="photography" data-index="2">photography</span>
-
 <span class="nav-area" data-section="substack" data-index="3">substack</span>
 
-<span class="nav-area" data-section="twitter" data-index="4">twitter</span>
-
-<span class="nav-area" data-section="instagram" data-index="5">instagram</span>
-
-<span class="nav-area" data-section="twitch" data-index="6">twitch</span>
-
-<span class="nav-area" data-section="lolchess" data-index="7">lolchess</span>
-
-<span class="nav-area" data-section="linkedin" data-index="8">linkedin</span></div>
+<span class="nav-label">elsewhere</span>
+  <span class="nav-area" data-section="twitter" data-index="4">twitter</span>
+  <span class="nav-area" data-section="instagram" data-index="5">instagram</span>
+  <span class="nav-area" data-section="twitch" data-index="6">twitch</span>
+  <span class="nav-area" data-section="lolchess" data-index="7">lolchess</span>
+  <span class="nav-area" data-section="linkedin" data-index="8">linkedin</span></div>
 
             <div class="instructions">
                 [↑↓] navigate • [enter] select • [esc] back
@@ -391,6 +369,10 @@
                 <p><a href="https://linkedin.com/in/kaiwenzhou" target="_blank">View LinkedIn Profile →</a></p>
             </div>
         </div>
+
+        <footer class="footer">
+            kaiwen zhou • 2024
+        </footer>
     </div>
 
     <script>
