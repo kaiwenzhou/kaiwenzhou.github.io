@@ -197,6 +197,47 @@
             font-weight: bold;
         }
 
+        /* Substack posts */
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .post-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-item a {
+            color: #1e293b;
+            text-decoration: none;
+            display: block;
+        }
+
+        .post-item a:hover {
+            color: #3b82f6;
+        }
+
+        .post-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .loading-text {
+            color: #64748b;
+            font-style: italic;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .grid-container {
@@ -298,7 +339,10 @@
             <div class="section-body">
                 <h3>writing and longer thoughts</h3>
                 <p>occasionally i write about tech, travel, and random observations from japan and sf.</p>
-                <p><a href="https://kaiwen.substack.com/" target="_blank">kaiwen.substack.com →</a></p>
+                <div id="substack-posts">
+                    <p class="loading-text">loading recent posts...</p>
+                </div>
+                <p style="margin-top: 1.5rem;"><a href="https://kaiwen.substack.com/" target="_blank">view all posts on substack →</a></p>
             </div>
         </div>
 
@@ -393,8 +437,6 @@
                             window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
                         } else if (currentItem.dataset.section === 'twitter') {
                             window.open('https://twitter.com/ssvankai', '_blank');
-                        } else if (currentItem.dataset.section === 'substack') {
-                            window.open('https://kaiwen.substack.com/', '_blank');
                         } else {
                             showSection(currentItem.dataset.section);
                         }
@@ -415,14 +457,57 @@
                         window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
                     } else if (item.dataset.section === 'twitter') {
                         window.open('https://twitter.com/ssvankai', '_blank');
-                    } else if (item.dataset.section === 'substack') {
-                        window.open('https://kaiwen.substack.com/', '_blank');
                     } else {
                         showSection(item.dataset.section);
                     }
                 });
             }
         });
+
+        // Fetch Substack RSS feed
+        async function fetchSubstackPosts() {
+            const postsContainer = document.getElementById('substack-posts');
+            const rssUrl = 'https://kaiwen.substack.com/feed';
+
+            try {
+                // Use rss2json API to fetch RSS (handles CORS)
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    const posts = data.items.slice(0, 5); // Show up to 5 posts
+                    const postsHtml = `
+                        <ul class="post-list">
+                            ${posts.map(post => {
+                                const date = new Date(post.pubDate).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                });
+                                return `
+                                    <li class="post-item">
+                                        <a href="${post.link}" target="_blank">
+                                            <div class="post-title">${post.title}</div>
+                                            <div class="post-date">${date}</div>
+                                        </a>
+                                    </li>
+                                `;
+                            }).join('')}
+                        </ul>
+                    `;
+                    postsContainer.innerHTML = postsHtml;
+                } else {
+                    postsContainer.innerHTML = '<p class="loading-text">no posts yet - check back soon!</p>';
+                }
+            } catch (error) {
+                console.error('Failed to fetch Substack posts:', error);
+                postsContainer.innerHTML = '<p class="loading-text">couldn\'t load posts - <a href="https://kaiwen.substack.com/" target="_blank">visit substack directly</a></p>';
+            }
+        }
+
+        // Fetch posts on page load
+        fetchSubstackPosts();
     </script>
 </body>
 </html>
