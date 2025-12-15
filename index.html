@@ -14,35 +14,31 @@
             background: #ffffff;
             color: #1e293b;
             min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        body.fade-out {
+            animation: fadeOut 0.2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            position: relative;
             min-height: 100vh;
-        }
-
-        /* Decorative elements */
-        .decorative {
-            position: fixed;
-            font-size: 2rem;
-            opacity: 0.1;
-            pointer-events: none;
-            color: #3b82f6;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .decorative:nth-child(1) { top: 10%; right: 10%; animation-delay: 0s; }
-        .decorative:nth-child(2) { top: 20%; right: 30%; animation-delay: 1s; font-size: 1.5rem; }
-        .decorative:nth-child(3) { bottom: 15%; left: 8%; animation-delay: 2s; font-size: 2.5rem; }
-        .decorative:nth-child(4) { bottom: 30%; right: 20%; animation-delay: 3s; font-size: 1.8rem; }
-        .decorative:nth-child(5) { top: 40%; left: 15%; animation-delay: 4s; font-size: 2.2rem; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            display: flex;
+            flex-direction: column;
         }
 
         /* Header */
@@ -76,7 +72,7 @@
         .map-container {
             font-family: 'Geist Mono', Monaco, 'Courier New', monospace;
             font-size: 14px;
-            line-height: 1.2;
+            line-height: 2;
             margin-bottom: 2rem;
             white-space: pre;
         }
@@ -89,6 +85,13 @@
         .nav-area.cursor {
             background: #fdf2f8;
             color: #be185d;
+        }
+
+        .nav-label {
+            color: #94a3b8;
+            font-size: 12px;
+            display: block;
+            margin-top: 0.25rem;
         }
 
         /* Instructions */
@@ -197,13 +200,58 @@
             font-weight: bold;
         }
 
+        /* Substack posts */
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .post-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-item a {
+            color: #1e293b;
+            text-decoration: none;
+            display: block;
+        }
+
+        .post-item a:hover {
+            color: #3b82f6;
+        }
+
+        .post-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .loading-text {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(6, 1fr);
-            }
-            
             .container {
                 padding: 1rem;
             }
@@ -211,13 +259,6 @@
     </style>
 </head>
 <body>
-    <!-- Decorative Elements -->
-    <div class="decorative">💻</div>
-    <div class="decorative">🚀</div>
-    <div class="decorative">⚡</div>
-    <div class="decorative">🎯</div>
-    <div class="decorative">🔧</div>
-
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -230,16 +271,15 @@
         <!-- Navigation Map -->
         <div id="nav-map" class="nav-map">
             <div class="map-container"><span class="nav-area" data-section="about" data-index="0">about</span>
-
 <span class="nav-area" data-section="projects" data-index="1">projects</span>
-
 <span class="nav-area" data-section="photography" data-index="2">photography</span>
-
 <span class="nav-area" data-section="substack" data-index="3">substack</span>
-
-<span class="nav-area" data-section="twitter" data-index="4">twitter</span>
-
-<span class="nav-area" data-section="linkedin" data-index="5">linkedin</span></div>
+<span class="nav-label">elsewhere</span>
+  <span class="nav-area" data-section="twitter" data-index="4">twitter</span>
+  <span class="nav-area" data-section="instagram" data-index="5">instagram</span>
+  <span class="nav-area" data-section="twitch" data-index="6">twitch</span>
+  <span class="nav-area" data-section="lolchess" data-index="7">lolchess</span>
+  <span class="nav-area" data-section="linkedin" data-index="8">linkedin</span></div>
 
             <div class="instructions">
                 [↑↓] navigate • [enter] select • [esc] back
@@ -298,7 +338,10 @@
             <div class="section-body">
                 <h3>writing and longer thoughts</h3>
                 <p>occasionally i write about tech, travel, and random observations from japan and sf.</p>
-                <p><a href="https://kaiwen.substack.com/" target="_blank">kaiwen.substack.com →</a></p>
+                <div id="substack-posts">
+                    <p class="loading-text">loading recent posts...</p>
+                </div>
+                <p style="margin-top: 1.5rem;"><a href="https://kaiwen.substack.com/" target="_blank">view all posts on substack →</a></p>
             </div>
         </div>
 
@@ -325,12 +368,33 @@
                 <p><a href="https://linkedin.com/in/kaiwenzhou" target="_blank">View LinkedIn Profile →</a></p>
             </div>
         </div>
+
+        <footer class="footer">
+            kaiwen zhou • 2024
+        </footer>
     </div>
 
     <script>
         let currentIndex = 0;
         let currentSection = null;
-        const maxIndex = 5; // 0-5 for 6 sections
+        const maxIndex = 8; // 0-8 for 9 nav items
+
+        // External links mapping
+        const externalLinks = {
+            twitter: 'https://twitter.com/ssvankai',
+            instagram: 'https://www.instagram.com/kaiwenzhou_/',
+            twitch: 'https://www.twitch.tv/hoimes',
+            lolchess: 'https://lolchess.gg/profile/na/HoImes-NA1/',
+            linkedin: 'https://linkedin.com/in/kaiwenzhou'
+        };
+
+        // Navigate with transition
+        function navigateTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 200);
+        }
 
         function updateCursor() {
             document.querySelectorAll('.nav-area').forEach(item => {
@@ -389,14 +453,13 @@
                     e.preventDefault();
                     const currentItem = document.querySelector(`[data-index="${currentIndex}"]`);
                     if (currentItem && currentItem.dataset.section) {
-                        if (currentItem.dataset.section === 'linkedin') {
-                            window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
-                        } else if (currentItem.dataset.section === 'twitter') {
-                            window.open('https://twitter.com/ssvankai', '_blank');
-                        } else if (currentItem.dataset.section === 'substack') {
-                            window.open('https://kaiwen.substack.com/', '_blank');
+                        const section = currentItem.dataset.section;
+                        if (externalLinks[section]) {
+                            window.open(externalLinks[section], '_blank');
+                        } else if (section === 'photography') {
+                            navigateTo('./photoproject.html');
                         } else {
-                            showSection(currentItem.dataset.section);
+                            showSection(section);
                         }
                     }
                     break;
@@ -411,18 +474,62 @@
         document.querySelectorAll('.nav-area').forEach(item => {
             if (item.dataset.section) {
                 item.addEventListener('click', () => {
-                    if (item.dataset.section === 'linkedin') {
-                        window.open('https://linkedin.com/in/kaiwenzhou', '_blank');
-                    } else if (item.dataset.section === 'twitter') {
-                        window.open('https://twitter.com/ssvankai', '_blank');
-                    } else if (item.dataset.section === 'substack') {
-                        window.open('https://kaiwen.substack.com/', '_blank');
+                    const section = item.dataset.section;
+                    if (externalLinks[section]) {
+                        window.open(externalLinks[section], '_blank');
+                    } else if (section === 'photography') {
+                        navigateTo('./photoproject.html');
                     } else {
-                        showSection(item.dataset.section);
+                        showSection(section);
                     }
                 });
             }
         });
+
+        // Fetch Substack RSS feed
+        async function fetchSubstackPosts() {
+            const postsContainer = document.getElementById('substack-posts');
+            const rssUrl = 'https://kaiwen.substack.com/feed';
+
+            try {
+                // Use rss2json API to fetch RSS (handles CORS)
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    const posts = data.items.slice(0, 5); // Show up to 5 posts
+                    const postsHtml = `
+                        <ul class="post-list">
+                            ${posts.map(post => {
+                                const date = new Date(post.pubDate).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                });
+                                return `
+                                    <li class="post-item">
+                                        <a href="${post.link}" target="_blank">
+                                            <div class="post-title">${post.title}</div>
+                                            <div class="post-date">${date}</div>
+                                        </a>
+                                    </li>
+                                `;
+                            }).join('')}
+                        </ul>
+                    `;
+                    postsContainer.innerHTML = postsHtml;
+                } else {
+                    postsContainer.innerHTML = '<p class="loading-text">no posts yet - check back soon!</p>';
+                }
+            } catch (error) {
+                console.error('Failed to fetch Substack posts:', error);
+                postsContainer.innerHTML = '<p class="loading-text">couldn\'t load posts - <a href="https://kaiwen.substack.com/" target="_blank">visit substack directly</a></p>';
+            }
+        }
+
+        // Fetch posts on page load
+        fetchSubstackPosts();
     </script>
 </body>
 </html>
